@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anuario escolar digital</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="toolbar" aria-label="Controles del anuario">
+    <button id="prev" type="button">← Anterior</button>
+    <label for="pageSelect">Página</label>
+    <select id="pageSelect" aria-label="Seleccionar página"></select>
+    <button id="next" type="button">Siguiente →</button>
+    <button id="save" type="button">Guardar cambios</button>
+    <button id="export" type="button">Descargar libro HTML</button>
+    <button id="pdf" type="button">Imprimir / Guardar PDF</button>
+    <span class="status" id="status">Portada y 30 plantillas interiores</span>
+  </nav>
+  <main class="book" id="book"></main>
+  <script src="script.js" defer></script>
+</body>
+</html>

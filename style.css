@@ -1,0 +1,462 @@
+:root{--verde:#062719;--oro:#c49a32}
+*{box-sizing:border-box}
+body{margin:0;background:#e6e3dc;font-family:Georgia,"Times New Roman",serif;color:#10271b}
+.toolbar{position:sticky;top:0;z-index:100;background:#062719;color:#fff;padding:10px;display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;box-shadow:0 3px 12px #0003}
+.toolbar button,.toolbar select{border:1px solid #d5ad4b;border-radius:5px;padding:8px 11px;background:#f8f5ed;color:#062719;cursor:pointer}
+.toolbar .status{font-size:12px;color:#f3dda0}
+.book{width:min(95vw,820px);margin:22px auto}
+.page{position:relative;display:none;width:100%;aspect-ratio:1086/1448;background:#f8f5ed url("plantilla.png") center/100% 100% no-repeat;overflow:hidden;box-shadow:0 8px 24px #0002}
+.page.active{display:block}
+.cover{background:linear-gradient(145deg,#f8f5ed,#eee8d9);border:12px double #c49a32;outline:3px solid #062719;outline-offset:-22px;padding:7% 7%;text-align:center}
+.cover:before{content:"";position:absolute;inset:25px;border:2px solid #c49a32;pointer-events:none}
+.cover-title{position:relative;margin:7% auto 2%;padding:18px 12px;max-width:94%;background:#062719;color:#fff;border:5px double #e2c36d;outline:2px solid #c49a32;border-radius:55px;text-transform:uppercase;font-size:clamp(19px,3.2vw,34px);font-weight:normal}
+.cover-ornament{color:#a77920;font-size:clamp(24px,4vw,38px);margin:4% 0}
+.cover-subtitle{color:#062719;font-size:clamp(16px,2.4vw,24px);margin:20px 0}
+.cover-photo-frame{position:relative;width:34%;height:34%;min-height:170px;margin:5% auto 3%;padding:7px;background:#062719;border:6px double #c49a32;outline:2px solid #c49a32;display:flex;align-items:center;justify-content:center}
+.cover-photo-frame img{position:static;width:100%;height:100%;object-fit:cover;display:none}.cover-photo-frame img[src]:not([src='']){display:block}
+.cover-photo-frame img[src]:not([src=""]){display:block}
+.cover-photo-frame .hint{color:#a77920;font-size:14px}
+.cover-photo-frame .cover-file{position:absolute;bottom:-34px;left:50%;transform:translateX(-50%);width:120px;font-size:10px}
+.cover-name{display:block;width:70%;margin:5% auto 0;text-align:center;border:0;border-bottom:1px solid #062719;background:transparent;padding:7px;font:16px Georgia,serif;color:#062719}
+.field{position:absolute;z-index:2;border:0;border-radius:0;background:transparent;color:#10271b;font-family:Georgia,"Times New Roman",serif;font-size:clamp(9px,1.25vw,15px);padding:1px 3px;outline:0;min-width:0}
+.field:focus{background:rgba(255,255,240,.83);outline:1px dashed #b58a25}
+.field::placeholder{color:transparent}
+.lines{position:absolute;z-index:2;display:flex;flex-direction:column;justify-content:space-between}
+.lines input{width:100%;height:100%;min-height:0;flex:1;border:0;background:transparent;color:#10271b;font:inherit;padding:1px 3px;outline:0}
+.lines input:focus{background:rgba(255,255,240,.85);outline:1px dashed #b58a25}
+.photo{position:absolute;z-index:3;left:12.75%;top:31.85%;width:16.15%;height:23.15%;object-fit:cover;display:none}
+.photo[src]:not([src=""]){display:block}
+.upload{position:absolute;z-index:5;left:12%;top:56.8%;width:18%;font-size:clamp(8px,1vw,12px);opacity:1;cursor:pointer;background:#062719;color:white;border:1px solid #c49a32;border-radius:4px;padding:4px}
+.upload:focus{opacity:1;background:white}
+.photo-button{position:absolute;z-index:6;left:11.4%;top:56%;width:19%;height:2.2%;opacity:0;cursor:pointer}
+.photo-button:focus{opacity:1}
+.photo-hint{display:none}
+.page-count{position:absolute;z-index:8;right:5.8%;bottom:3.3%;font:10px Georgia,serif;color:#6b5019;opacity:0}
+.page:focus-within .page-count{opacity:.6}
+@media(max-width:600px){.book{width:98vw;margin:8px auto}.toolbar{position:relative}.toolbar button,.toolbar select{padding:7px;font-size:12px}.field{font-size:10px}}
+@media print{
+ body{background:#fff}.toolbar{display:none!important}.book{width:100%;margin:0}.page{display:block!important;width:100%;height:100vh;aspect-ratio:auto;page-break-after:always;box-shadow:none}.page:last-child{page-break-after:auto}.field:focus,.lines input:focus{outline:0;background:transparent}
+}
+
+/* Portada renovada: editorial clásica verde y oro */
+.cover{
+ background:
+   radial-gradient(ellipse at 50% 35%,rgba(255,255,255,.82),rgba(247,242,229,.97) 68%),
+   #f7f2e7;
+ border:12px double #b58a2b;outline:3px solid #062719;outline-offset:-22px;
+ padding:6% 8%;text-align:center;isolation:isolate
+}
+.cover:before{content:"";position:absolute;inset:26px;border:2px solid #b58a2b;pointer-events:none}
+.cover:after{content:"";position:absolute;inset:36px;border:1px solid rgba(181,138,43,.55);pointer-events:none}
+.cover-topline{position:relative;z-index:1;color:#99701e;font-size:clamp(11px,1.5vw,16px);letter-spacing:.28em;text-transform:uppercase;margin-top:4%}
+.cover-emblem{position:relative;z-index:1;display:block;width:clamp(115px,22%,190px);height:auto;max-height:24%;object-fit:contain;margin:5% auto 3%;filter:drop-shadow(0 3px 2px #0002)}
+.cover-kicker{position:relative;z-index:1;color:#96701f;font-size:clamp(12px,1.7vw,18px);letter-spacing:.3em;text-transform:uppercase;margin:4% 0 2%}
+.cover-title{position:relative;z-index:1;margin:0 auto;padding:5% 4%;max-width:92%;background:#062719;color:#fff9e9;border:5px double #d5b45b;outline:1px solid #a77d24;border-radius:3px;text-transform:uppercase;font-family:Georgia,"Times New Roman",serif;font-size:clamp(22px,4vw,43px);font-weight:normal;line-height:1.28;letter-spacing:.075em;text-shadow:0 1px 1px #0005}
+.cover-rule{position:relative;z-index:1;width:58%;height:1px;background:linear-gradient(90deg,transparent,#b58a2b,transparent);margin:5% auto}
+.cover-course{position:relative;z-index:1;color:#10291d;font-family:Georgia,"Times New Roman",serif;font-size:clamp(17px,2.5vw,26px);letter-spacing:.12em;margin:2% 0;text-transform:uppercase}
+.cover-year{position:relative;z-index:1;color:#99701e;font-size:clamp(14px,2vw,20px);letter-spacing:.22em;margin:3% 0}
+.cover-motto{position:absolute;z-index:1;bottom:10%;left:0;right:0;color:#88631b;font-size:clamp(12px,1.6vw,17px);letter-spacing:.3em;text-transform:uppercase}
+.cover-flourish{position:relative;z-index:1;color:#b58a2b;font-size:clamp(20px,3vw,30px);margin:3% 0}
+@media(max-width:600px){.cover{border-width:7px;padding:8% 6%}.cover:before{inset:15px}.cover:after{inset:22px}.cover-emblem{width:23%;max-height:22%}.cover-title{font-size:clamp(19px,5vw,30px)}}
+
+
+/* Portada verde institucional renovada */
+.cover{
+ background:
+   radial-gradient(ellipse at 50% 30%,rgba(23,83,53,.75),transparent 58%),
+   linear-gradient(145deg,#031b12 0%,#0a3825 48%,#031b12 100%);
+ border:13px double #c69b37;outline:2px solid #08291b;outline-offset:-24px;
+ padding:5.5% 7%;text-align:center;isolation:isolate;overflow:hidden
+}
+.cover:before{
+ content:"";position:absolute;inset:25px;border:2px solid #d1aa50;
+ box-shadow:inset 0 0 0 7px rgba(198,155,55,.13),0 0 0 1px rgba(198,155,55,.4);
+ pointer-events:none
+}
+.cover:after{
+ content:"";position:absolute;inset:37px;border:1px solid rgba(231,204,132,.5);
+ pointer-events:none
+}
+.cover-topline{
+ position:relative;z-index:1;color:#e6c878;font-size:clamp(10px,1.45vw,16px);
+ letter-spacing:.34em;text-transform:uppercase;margin:3.5% 0 1%
+}
+.cover-flourish{position:relative;z-index:1;color:#d1aa50;font-size:clamp(20px,3vw,31px);margin:1.5% 0}
+.cover-emblem{
+ position:relative;z-index:2;display:block;width:clamp(115px,21%,180px);
+ height:clamp(130px,23%,195px);object-fit:contain;margin:1.5% auto 3%;
+ padding:9px;background:radial-gradient(circle,#fffdf5 0 62%,#d5b45c 63% 66%,#f7f0dc 67% 100%);
+ border:4px double #c69b37;border-radius:50%;
+ box-shadow:0 0 0 5px rgba(5,35,23,.8),0 0 0 7px #c69b37,0 8px 18px #0006
+}
+.cover-kicker{
+ position:relative;z-index:1;color:#e2c16b;font-size:clamp(12px,1.7vw,18px);
+ letter-spacing:.38em;text-transform:uppercase;margin:2% 0 1%
+}
+.cover-title{
+ position:relative;z-index:1;margin:0 auto;padding:4.2% 3%;max-width:91%;
+ background:linear-gradient(90deg,#062719,#10452d 50%,#062719);
+ color:#fff9e9;border:4px double #d6b45b;outline:1px solid #9d7626;
+ border-radius:4px;text-transform:uppercase;
+ font-family:Georgia,"Times New Roman",serif;font-size:clamp(22px,4vw,43px);
+ font-weight:normal;line-height:1.22;letter-spacing:.075em;
+ text-shadow:0 2px 2px #0008
+}
+.cover-rule{
+ position:relative;z-index:1;width:58%;height:2px;
+ background:linear-gradient(90deg,transparent,#d4ad4f,transparent);margin:4% auto
+}
+.cover-course{
+ position:relative;z-index:1;color:#fff8e8;font-size:clamp(17px,2.5vw,26px);
+ letter-spacing:.16em;margin:1.5% 0;text-transform:uppercase
+}
+.cover-year{
+ position:relative;z-index:1;color:#e2c16b;font-size:clamp(13px,1.9vw,20px);
+ letter-spacing:.25em;margin:2% 0
+}
+.cover-motto{
+ position:absolute;z-index:1;bottom:8%;left:0;right:0;
+ color:#e6ca82;font-size:clamp(11px,1.5vw,16px);
+ letter-spacing:.3em;text-transform:uppercase
+}
+@media(max-width:600px){
+ .cover{border-width:8px;padding:7% 6%}
+ .cover:before{inset:15px}.cover:after{inset:22px}
+ .cover-emblem{width:23%;height:23%;min-height:110px}
+ .cover-title{font-size:clamp(19px,5vw,30px)}
+}
+
+
+/* Las 30 páginas interiores usan la plantilla original completa:
+   fondo marfil, adornos verdes/dorados y marco ornamental de fotografía. */
+.page:not(.cover) {
+  background-color: #f8f5ed;
+  background-image: url("plantilla.png");
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* La foto se coloca dentro del marco que ya está dibujado en la plantilla. */
+.page:not(.cover) .photo {
+  left: 13.0%;
+  top: 31.6%;
+  width: 15.1%;
+  height: 24.8%;
+  object-fit: cover;
+  z-index: 3;
+}
+
+/* El selector transparente permite pulsar directamente el marco para subir foto. */
+.page:not(.cover) .upload {
+  left: 10.6%;
+  top: 29.8%;
+  width: 20.8%;
+  height: 27.5%;
+  opacity: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  z-index: 6;
+}
+.page:not(.cover) .upload:focus-visible {
+  opacity: .18;
+  outline: 3px dashed #c49a32;
+  background: #c49a32;
+}
+
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .page:not(.cover) { background-image: url("plantilla.png") !important; }
+}
+
+
+/* === Nuevas opciones de edición para las 30 páginas interiores === */
+.page:not(.cover) .photo-frame {
+  position: absolute;
+  left: 13.0%;
+  top: 31.6%;
+  width: 15.1%;
+  height: 24.8%;
+  overflow: hidden;
+  z-index: 3;
+}
+.page:not(.cover) .photo-frame .photo {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  transform-origin: center center;
+  z-index: 1;
+}
+.page:not(.cover) .photo-frame.has-photo .photo { display: block; }
+.page:not(.cover) .photo-frame .upload {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 4;
+  font-size: 0;
+}
+.page:not(.cover) .photo-tools {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: max(190px, 100%);
+  max-width: 44vw;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: #062719;
+  color: #fff4d5;
+  border: 1px solid #c49a32;
+  font: 10px Arial, sans-serif;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+}
+.page:not(.cover) .photo-frame:focus-within .photo-tools,
+.page:not(.cover) .photo-frame:hover .photo-tools {
+  opacity: 1;
+  pointer-events: auto;
+}
+.page:not(.cover) .photo-tools label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+.page:not(.cover) .photo-tools input { width: 58%; }
+.page:not(.cover) .photo-tools button {
+  border: 1px solid #c49a32;
+  background: #f8f5ed;
+  color: #062719;
+  padding: 3px;
+  cursor: pointer;
+}
+
+/* Líneas de texto que se pueden añadir o quitar con + y −. */
+.page:not(.cover) .lines {
+  z-index: 4;
+  background: rgba(248,245,237,.94);
+  padding: 1px 2px 13px;
+}
+.page:not(.cover) .line-inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100%;
+}
+.page:not(.cover) .line-inputs input {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(151,116,43,.48);
+  background: transparent;
+  color: #10271b;
+  font: clamp(9px,1.15vw,14px) Georgia,serif;
+  outline: 0;
+}
+.page:not(.cover) .line-inputs input:focus {
+  background: #fffdf5;
+  outline: 1px dashed #b58a25;
+}
+.page:not(.cover) .line-controls {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 3px;
+}
+.page:not(.cover) .line-controls button {
+  width: 17px;
+  height: 15px;
+  line-height: 12px;
+  padding: 0;
+  border: 1px solid #c49a32;
+  border-radius: 3px;
+  background: #062719;
+  color: #f8e6b3;
+  font: bold 13px Arial,sans-serif;
+  cursor: pointer;
+}
+
+/* Espacio para imagen de firma: seleccionar archivo o pegar desde portapapeles. */
+.page:not(.cover) .signature-area {
+  position: absolute;
+  left: 42.1%;
+  top: 84.8%;
+  width: 17.6%;
+  height: 5.5%;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  border: 1px dashed rgba(151,116,43,.55);
+  background: rgba(248,245,237,.78);
+  cursor: pointer;
+}
+.page:not(.cover) .signature-hint {
+  color: #806323;
+  font: 9px Georgia,serif;
+  text-align: center;
+  pointer-events: none;
+}
+.page:not(.cover) .signature-image {
+  display: none;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.page:not(.cover) .signature-area.has-image .signature-image { display: block; }
+.page:not(.cover) .signature-area.has-image .signature-hint { display: none; }
+.page:not(.cover) .signature-file { display: none; }
+.page:not(.cover) .signature-tools {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: max-content;
+  max-width: 45vw;
+  padding: 5px;
+  background: #062719;
+  color: #fff4d5;
+  border: 1px solid #c49a32;
+  font: 10px Arial,sans-serif;
+  opacity: 0;
+  pointer-events: none;
+}
+.page:not(.cover) .signature-area:hover .signature-tools,
+.page:not(.cover) .signature-area:focus-within .signature-tools {
+  opacity: 1;
+  pointer-events: auto;
+}
+.page:not(.cover) .signature-tools button {
+  border: 1px solid #c49a32;
+  background: #f8f5ed;
+  color: #062719;
+  cursor: pointer;
+}
+@media print {
+  .page:not(.cover) .photo-tools,
+  .page:not(.cover) .line-controls,
+  .page:not(.cover) .signature-tools,
+  .page:not(.cover) .signature-hint { display: none !important; }
+  .page:not(.cover) .lines { background: transparent !important; }
+  .page:not(.cover) .line-inputs input { border-bottom-color: rgba(151,116,43,.48) !important; }
+}
+
+
+/* La foto grande se puede mover directamente dentro del marco. */
+.page:not(.cover) .photo-frame {
+  touch-action: none;
+}
+.page:not(.cover) .photo-frame.has-photo .photo {
+  display: block;
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.page:not(.cover) .photo-frame.has-photo .photo:active {
+  cursor: grabbing;
+}
+/* El selector solo recibe clic cuando todavía no hay foto.
+   Una vez cargada, no tapa la imagen ni impide arrastrarla. */
+.page:not(.cover) .photo-frame .upload {
+  pointer-events: auto;
+}
+.page:not(.cover) .photo-frame.has-photo .upload {
+  pointer-events: none;
+}
+.page:not(.cover) .photo-tools {
+  pointer-events: none;
+  opacity: 0;
+}
+.page:not(.cover) .photo-frame:hover .photo-tools,
+.page:not(.cover) .photo-frame:focus-within .photo-tools {
+  pointer-events: auto;
+  opacity: 1;
+}
+.page:not(.cover) .photo-tools small {
+  font: 9px Arial, sans-serif;
+  line-height: 1.25;
+  color: #fff4d5;
+}
+
+
+/* Ajustes solicitados: marcos transparentes y controles de tamaño más amplios. */
+.page:not(.cover) .photo-frame {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.page:not(.cover) .photo-frame .photo {
+  background: transparent !important;
+}
+.page:not(.cover) .signature-area {
+  background: transparent !important;
+  border-color: rgba(151,116,43,.45);
+}
+.page:not(.cover) .signature-image {
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+}
+
+
+/* Corrección de carga de la fotografía principal: botón visible y selector activado por JavaScript. */
+.page:not(.cover) .photo-frame {
+  position: absolute;
+  left: 13%;
+  top: 31.6%;
+  width: 15.1%;
+  height: 24.8%;
+  overflow: visible;
+  cursor: pointer;
+}
+.page:not(.cover) .photo-frame .upload {
+  display: none !important;
+}
+.page:not(.cover) .photo-frame .photo-add {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border: 1px dashed #b58a2b;
+  background: rgba(248,245,237,.82);
+  color: #062719;
+  font: clamp(9px,1.1vw,13px) Georgia,serif;
+  cursor: pointer;
+  z-index: 5;
+}
+.page:not(.cover) .photo-frame.has-photo .photo-add {
+  display: none;
+}
+.page:not(.cover) .photo-frame.has-photo .photo {
+  z-index: 3;
+}
+.page:not(.cover) .photo-frame .photo-tools {
+  z-index: 20;
+}
+@media print {
+  .page:not(.cover) .photo-frame .photo-add { display: none !important; }
+}
